@@ -1,17 +1,25 @@
-@model List<Product>
+@model List<WebApplication1.Models.Product>
 @{
-    ViewData["Title"] = "Товари";
+    ViewData["Title"] = "Каталог товарів";
 }
 
-<h1>Товари</h1>
+<h1>Каталог товарів</h1>
 
-<div class="products">
+<form method="get" asp-action="Search">
+    <input type="text" name="name" placeholder="Назва товару" />
+    <input type="submit" value="Пошук" />
+</form>
+
+<p><a asp-action="Create">Додати товар</a></p>
+
+<ul>
     @foreach (var p in Model)
     {
-        <a class="product-card" asp-controller="Product" asp-action="Details" asp-route-id="@p.Id">
-            <div class="emoji">@p.Emoji</div>
-            <h3>@p.Name</h3>
-            <span class="price">@p.Price.ToString("N0") грн</span>
-        </a>
+        <li><a asp-action="Details" asp-route-id="@p.Id">@p.Name</a> — @p.Price.ToString("0.00") грн</li>
     }
-</div>
+</ul>
+
+@if (!Model.Any())
+{
+    <p>Товарів поки немає</p>
+}
